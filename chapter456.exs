@@ -97,21 +97,18 @@ end
 
 v = 5
 
-# Result is 17
-z =
+# Result is z = 17, v = 7
+{v, z} =
   if v > 3 do
     v = v + 1
     v = v + 1
     z = z + 1
+    {v, z}
   end
 
+IO.puts("Prueba if: #{z} #{v}")
+
 # Result is 7
-v =
-  if v > 3 do
-    v = v + 1
-    z = z + 1
-    v = v + 1
-  end
 
 IO.puts("if result v #{v}")
 IO.puts("if result z #{z}")
