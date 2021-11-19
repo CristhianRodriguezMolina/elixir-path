@@ -169,7 +169,8 @@ end
 IO.puts("Sum of #{inspect([1, 2, 34, 5])}: #{MathReduce.sum_list([1, 2, 34, 5], 0)}")
 # With Enum
 IO.puts(Enum.reduce([1, 2, 3], 0, fn x, acc -> x + acc end))
-IO.puts(Enum.reduce([1, 2, 3], 0, &+/2))
+IO.puts("Starts with acc = 5: " <> to_string(Enum.reduce([1, 2, 3], 5, &+/2)))
+IO.puts("Starts with acc = 0: " <> to_string(Enum.reduce([1, 2, 3], &+/2)))
 
 IO.puts("\nMAPPING:")
 
