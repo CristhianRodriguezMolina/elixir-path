@@ -83,11 +83,13 @@ MyModule.accumulated_param2()
 
 IO.puts("\nSTRUCTS:")
 
-defmodule Person do
-  # This key should be placed when creating a Person or it will raise an error
-  @enforce_keys [:ID]
-  defstruct [:ID, first_name: "Jhon", last_name: "Doe", age: 21, id: 1_234_567_890]
-end
+# defmodule Person do
+#   # This key should be placed when creating a Person or it will raise an error
+#   @enforce_keys [:ID]
+#   defstruct [:ID, first_name: "Jhon", last_name: "Doe", age: 21, id: 1_234_567_890]
+# end
+
+alias Person
 
 # From this and forward is gonna throw an error cause a struc can not be accessed in the same file
 try do
@@ -98,16 +100,17 @@ in the same context")
   ## %Person{}
 
   # Creating an structure
-  ## person = %Person{first_name: "Cristhian", last_name: :Rodriguez, age: 25}
+  person = %Person{first_name: "Cristhian", last_name: :Rodriguez, age: 25}
 
   # Accesing to a value
   # Strucs can not be accessed like a map, i.e. struc[:name], this gonna throw an error
-  ## IO.puts(person.last_name)
+  IO.puts(person.last_name)
 
   # Adding a new field
   # Strucs can not be enumerated like a map, i.e. Enum.each(struc, fn {field, value} -> IO.puts(value) end), gonna throw an error too
   # But it can use Map module functions
-  ## person = Map.put(person, :have_a_cat, "No")
+  person = Map.put(person, :have_a_cat, "No")
+  IO.inspect(person)
 rescue
   e in CompileError ->
     IO.puts(
