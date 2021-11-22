@@ -22,6 +22,9 @@ map2 = %{1 => 1, 2 => 2, 3 => 3}
 IO.puts(inspect(map1))
 IO.puts("Map1 in a: #{map1[:a]}")
 
+IO.puts("\nEnumering: ")
+IO.inspect(Enum.each(map1, fn {field, value} -> IO.puts("#{field} -> #{value}") end))
+IO.puts("")
 IO.puts(inspect(map2))
 IO.puts("Map2 in 2: #{map2[2]}")
 IO.puts("Map2 in 4: #{inspect(map2[4])}")
