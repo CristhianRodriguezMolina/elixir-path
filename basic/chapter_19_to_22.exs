@@ -97,7 +97,10 @@ IO.puts(result)
 # Type specs
 
 defmodule NewSpecModule do
-  # Defining a custom type called num that is of type integer
+  @typedoc """
+    Any type of number like integer, float, etc.
+  """
+  # Defining a custom type called num that is of type number
   @type num :: number()
 
   # Custom private type
@@ -135,6 +138,17 @@ defmodule Parser do
   Lists all supported file extensions.
   """
   @callback extensions() :: [String.t()]
+
+  # This method is to prove the implementations of this Parser behaviour
+  def parse!(impl, contents) do
+    require IEx
+    IEx.pry()
+
+    case impl.parse(contents) do
+      {:ok, data} -> data
+      {:error, error} -> raise ArgumentError, "Parsing error: #{error}"
+    end
+  end
 end
 
 # This is a good implementation of the Parser module
@@ -156,12 +170,101 @@ defmodule BADParser do
   @behaviour Parser
 
   @impl Parser
-  # This raise an error cause the parse function does not have any arguments
-  # def parse, do: {:ok, "something bad"}
-  def parse(_str), do: {:ok, "something bad"}
+  # This shows a warning cause the parse function does not have any arguments
+  def parse(), do: {:ok, "something bad"}
 
   @impl Parser
   def extensions, do: ["bad"]
 end
 
-IO.inspect(BADParser.extensions())
+IO.inspect(BADParser.parse())
+
+# Erlang libraries ------------------------------------
+
+IO.puts("\nERLANG LIBRARIES:")
+
+# binary
+
+IO.puts("\nbinary:")
+
+IO.inspect(String.to_charlist("é"))
+IO.inspect(:binary.bin_to_list("é"))
+
+# ets
+
+IO.puts("\nets:")
+
+table = :ets.new(:ets_test, [])
+
+# Store as tuples with {name, population}
+:ets.insert(table, {"China", 1_374_000_000})
+
+# IO.inspect(:ets.i(table))
+
+# digraph
+
+IO.puts("\ndigraph:")
+
+digraph = :digraph.new()
+
+coords = [{0.0, 0.0}, {1.0, 0.0}, {1.0, 1.0}, {0.0, 0.1}, {2.0, 0.0}, {0.0, 2.0}]
+
+[v1, v2, v3, v4, v5, v6] = for c <- coords, do: :digraph.add_vertex(digraph, c)
+
+# Adding edges keeping in mind the vertices
+:digraph.add_edge(digraph, v1, v2)
+:digraph.add_edge(digraph, v1, v5)
+:digraph.add_edge(digraph, v3, v5)
+:digraph.add_edge(digraph, v6, v5)
+:digraph.add_edge(digraph, v5, v4)
+
+IO.puts("Digraph: #{inspect(digraph)}")
+
+# Path from 1 to 4
+IO.puts("Path from v1 to v4: #{inspect(:digraph.get_short_path(digraph, v1, v4))}")
+# Imposible path
+IO.puts("Path from v1 to v4: #{inspect(:digraph.get_short_path(digraph, v1, v3))}")
+
+# Queue
+
+IO.puts("\nqueue:")
+
+# Queue is a tuple with two values (lists) first list is the queue and the second is where the first in the queue is allocated
+queue = :queue.new()
+
+IO.puts("new queue: #{inspect(queue)}")
+
+queue = :queue.in([1, 2, 3], queue)
+queue = :queue.in(%{a: :b, b: :c}, queue)
+queue = :queue.in(1, queue)
+queue = :queue.in({1.456, 3.1416}, queue)
+
+IO.puts("queue: #{inspect(queue)}")
+
+{value, queue} = :queue.out(queue)
+
+IO.puts("out: #{inspect(value)}, queue: #{inspect(queue)} ")
+
+queue = :queue.in(elem(value, 1), queue)
+
+IO.puts("in: #{inspect(value)}, queue: #{inspect(queue)} ")
+
+# Rand
+
+IO.puts("\nrand:")
+
+# Float random
+IO.puts(:rand.uniform())
+IO.puts(:rand.uniform())
+IO.puts(:rand.uniform())
+
+# Integer random from 1 to the number argument
+IO.puts(:rand.uniform(15))
+IO.puts(:rand.uniform(10))
+IO.puts(:rand.uniform(5))
+
+# Custom seed
+_ = :rand.seed(:exs1024, {222, 212_131, 21_535_533})
+
+# Random with custom seed
+IO.puts(:rand.uniform())
