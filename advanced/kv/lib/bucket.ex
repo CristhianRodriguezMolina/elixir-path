@@ -1,7 +1,8 @@
 defmodule KV.Bucket do
-  use Agent
+  # With this the bucket is not restarted regardless of the reason
+  use Agent, restart: :temporary
 
-  @typedoc """
+  @moduledoc """
     Everything in the funcion of an agent is considered the Server
 
     And everything outside is considered the Client

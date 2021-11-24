@@ -14,7 +14,9 @@ defmodule KV.MixProject do
   # Run "mix help compile.app" to learn about applications.
   def application do
     [
-      extra_applications: [:logger]
+      extra_applications: [:logger],
+      # We specified here the KV module as the module callback so in there we have to implement the start/1 callback
+      mod: {KV, []}
     ]
   end
 

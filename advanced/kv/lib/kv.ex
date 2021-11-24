@@ -1,22 +1,17 @@
 defmodule KV do
+  use Application
+
   @moduledoc """
   Documentation for `KV`.
   """
 
   @doc """
-  Hello world.
+    start/2 from the Application module
 
-  ## Examples
-
-      iex> KV.hello()
-      :world
-
+    It starts the supervision tree
   """
-  def hello do
-    :world
-  end
-
-  def sum(a, b) do
-    a + b
+  @impl true
+  def start(_type, _args) do
+    KV.Supervisor.start_link(name: KV.Supervisor)
   end
 end
