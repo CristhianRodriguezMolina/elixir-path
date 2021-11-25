@@ -1,7 +1,8 @@
 defmodule KV.Bucket do
-  use Agent
+  # With this the bucket is not restarted regardless of the reason
+  use Agent, restart: :temporary
 
-  @typedoc """
+  @moduledoc """
     Everything in the funcion of an agent is considered the Server
 
     And everything outside is considered the Client
@@ -11,11 +12,11 @@ defmodule KV.Bucket do
     Agent.start_link(fn -> %{} end)
   end
 
-  def get_by_key(bucket, key) do
+  def get(bucket, key) do
     Agent.get(bucket, fn content -> Map.get(content, key) end)
   end
 
-  def get(bucket) do
+  def get_all(bucket) do
     Agent.get(bucket, & &1)
   end
 

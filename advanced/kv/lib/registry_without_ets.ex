@@ -1,4 +1,5 @@
-defmodule KV.RegistryMonitored do
+defmodule KV.RegistryWithoutETS do
+  # GenServer Behaviour
   use GenServer
 
   # CLIENT PART
@@ -9,8 +10,22 @@ defmodule KV.RegistryMonitored do
     GenServer.start_link(__MODULE__, :ok, opts)
   end
 
+  @doc """
+  Looks up the bucket pid
+
+  Returns {:ok, PID} if the bucket exists, :error otherwise
+  """
   def lookup(server, name) do
     GenServer.call(server, {:lookup, name})
+  end
+
+  @doc """
+  Looks up for all the buckets
+
+  Returns %{name => PID, ...}
+  """
+  def lookup(server) do
+    GenServer.call(server, :get_all)
   end
 
   def create(server, name) do
@@ -22,7 +37,7 @@ defmodule KV.RegistryMonitored do
   # The "@impl true" means that the function below is a callback
   # The functions implemented should be functions that
 
-  @typedoc """
+  @doc """
     This receives the second argument of the GenServer.start_link/3 below
 
     returns
@@ -37,7 +52,7 @@ defmodule KV.RegistryMonitored do
     {:ok, {names, refs}}
   end
 
-  @typedoc """
+  @doc """
     Returns
     - :reply, to say that the server should reply to client
     - reply, is what will be sent to the client
@@ -52,11 +67,20 @@ defmodule KV.RegistryMonitored do
   end
 
   @impl true
+  def handle_call(:get_all, _from, state) do
+    # We get just the names of the state to search for the name
+    {names, _} = state
+    # {:reply, reply, new_state}
+    {:reply, names, state}
+  end
+
+  @impl true
   def handle_cast({:create, name}, {names, refs}) do
     if Map.has_key?(names, name) do
       {:noreply, names}
     else
-      {:ok, bucket} = KV.Bucket.start_link([])
+      # With this every bucket starts with the DynamicSupervisor
+      {:ok, bucket} = DynamicSupervisor.start_child(KV.BucketSupervisor, KV.Bucket)
       # To create a new ref we start monitor on the new bucket
       ref = Process.monitor(bucket)
       # Then we save it in the refs state
