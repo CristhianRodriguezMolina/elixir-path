@@ -18,6 +18,6 @@ defmodule KV.RegistryWithoutMonitorTest do
 
     # After below, it uses KV.Bucket to put a value and get it
     KV.Bucket.put(bucket, "milk", 1)
-    assert KV.Bucket.get_by_key(bucket, "milk") == 1
+    assert KV.Bucket.get(bucket, "milk") == 1
   end
 end

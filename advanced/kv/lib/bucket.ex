@@ -12,11 +12,11 @@ defmodule KV.Bucket do
     Agent.start_link(fn -> %{} end)
   end
 
-  def get_by_key(bucket, key) do
+  def get(bucket, key) do
     Agent.get(bucket, fn content -> Map.get(content, key) end)
   end
 
-  def get(bucket) do
+  def get_all(bucket) do
     Agent.get(bucket, & &1)
   end
 
