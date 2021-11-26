@@ -30,16 +30,6 @@ defmodule KV.Registry do
     end
   end
 
-  # @doc """
-  # Looks up for all the buckets
-
-  # Returns %{name => PID, ...}
-  # """
-
-  # def lookup(server) do
-  #   GenServer.call(server, :get_all)
-  # end
-
   @doc """
   Creates a new bucket in the `server` with the given `name` if it doesnt exist
   """
