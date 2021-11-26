@@ -68,7 +68,7 @@ defmodule KVServer do
   end
 
   defp write_line(socket, {:error, :not_found}) do
-    # Known error (Error in a command); write to the client
+    # Known error (Bucket doesnt exist); write to the client
     :gen_tcp.send(socket, "NOT FOUND\r\n")
   end
 

@@ -30,11 +30,11 @@ defmodule KV.Registry do
     end
   end
 
-  @doc """
-  Looks up for all the buckets
+  # @doc """
+  # Looks up for all the buckets
 
-  Returns %{name => PID, ...}
-  """
+  # Returns %{name => PID, ...}
+  # """
 
   # def lookup(server) do
   #   GenServer.call(server, :get_all)
