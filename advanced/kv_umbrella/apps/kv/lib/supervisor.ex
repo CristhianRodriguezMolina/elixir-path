@@ -12,7 +12,8 @@ defmodule KV.Supervisor do
       # We should place the BucketSupervisor before the Registry cause it invokes the BucketSupervisor
       # The strategy :one_for_one means that if a child in the supervisor dies it will be the only one restarted
       {DynamicSupervisor, name: KV.BucketSupervisor, strategy: :one_for_one},
-      {KV.Registry, name: KV.Registry}
+      {KV.Registry, name: KV.Registry},
+      {Task.Supervisor, name: KV.RouterTasks}
     ]
 
     # The strategy :one_for_all means that if a child dies the supervisor will kill and restart all of its childs

@@ -22,6 +22,8 @@ defmodule KV.MixProject do
   def application do
     [
       extra_applications: [:logger],
+      # Enviroment variables
+      env: [routing_table: []],
       # We specified here the KV module as the module callback so in there we have to implement the start/1 callback
       mod: {KV, []}
     ]
