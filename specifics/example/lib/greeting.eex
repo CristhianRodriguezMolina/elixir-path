@@ -1,0 +1,5 @@
+<%= if (String.length name) > 3 do %>
+    Hi, small <%= name %>
+<% else %>
+    Hi, big <%= name %>
+<% end %>
