@@ -1,0 +1,12 @@
+defmodule Friends.Repo.Migrations.CreateCharacters do
+  use Ecto.Migration
+
+  def change do
+    create table(:characters) do
+      add(:name, :string)
+
+      # This add the reference of the movie (foreign key)
+      add(:movie_id, references(:movies))
+    end
+  end
+end
