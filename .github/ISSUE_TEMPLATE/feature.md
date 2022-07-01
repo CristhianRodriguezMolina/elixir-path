@@ -2,9 +2,9 @@
 name: 👋 Feature request
 about: Tell us what you'd like to see
 title: ''
-labels: ':red_circle: bug'
+labels: 'bug'
 assignees: ''
-project: 'Training Path'
+projects: 'https://github.com/CristhianRodriguezMolina/elixir-path/projects/1'
 
 ---
 
