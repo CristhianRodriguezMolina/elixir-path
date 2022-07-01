@@ -4,7 +4,7 @@ about: Tell us what you'd like to see
 title: ''
 labels: 'bug'
 assignees: ''
-projects: 'https://github.com/CristhianRodriguezMolina/elixir-path/projects/1'
+projects: 'Training Path'
 
 ---
 
